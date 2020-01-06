@@ -26,13 +26,11 @@ from cftracker.csrdcf import CSRDCF
 from cftracker.ldes import LDES
 from cftracker.mkcfup import MKCFup
 from cftracker.strcf import STRCF
-from cftracker.asrcf_hc import ASRCFHC
 from cftracker.mccth_staple import MCCTHStaple
-from cftracker.bacf_rcg import BACFRCG
 from cftracker.opencv_cftracker import OpenCVCFTracker
 
 from lib.eco.config import vot18_deep_config,vot18_hc_config
-from cftracker.config import strcf_hc_config,ldes_config,dsst_config,csrdcf_config,staple_config,mkcf_up_config,mccth_staple_config,asrcfhc_config
+from cftracker.config import ldes_config,dsst_config,csrdcf_config,staple_config,mkcf_up_config,mccth_staple_config
 
 parser = argparse.ArgumentParser(description='Test')
 
@@ -91,13 +89,9 @@ def create_tracker(tracker_type):
     elif tracker_type=='MKCFup-LP':
         tracker=MKCFup(config=mkcf_up_config.MKCFupLPConfig())
     elif tracker_type=='STRCF':
-        tracker=STRCF(strcf_hc_config.STRCFHCVOTConfig())
+        tracker=STRCF()
     elif tracker_type=='MCCTH-Staple':
         tracker=MCCTHStaple(config=mccth_staple_config.MCCTHVOTConfig())
-    elif tracker_type=='ASRCF-HC':
-        tracker=ASRCFHC(config=asrcfhc_config.ASRCFHCVOT2018Config())
-    elif tracker_type=='BACF-RCG':
-        tracker=BACFRCG()
     else:
         raise NotImplementedError
     return tracker
@@ -199,7 +193,7 @@ def main():
     total_lost = 0  # VOT
     speed_list = []
 
-    trackers = ['BACF-RCG']
+    trackers = ['STRCF']
 
     for tracker_type in trackers:
 

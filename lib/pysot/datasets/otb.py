@@ -91,6 +91,8 @@ class OTBDataset(Dataset):
         self.videos = {}
         for video in pbar:
             pbar.set_postfix_str(video)
+            if video !='Basketball' and  video !='Biker' and  video !='BlurBody' and  video !='BlurFace':
+                continue
             self.videos[video] = OTBVideo(video,
                                           dataset_root,
                                           meta_data[video]['video_dir'],

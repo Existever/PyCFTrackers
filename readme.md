@@ -18,7 +18,6 @@ I use [pysot-toolkit](https://github.com/StrangerZhang/pysot-toolkit) to eval th
 - [x] [MKCFup/MKCFup-LP](http://openaccess.thecvf.com/content_cvpr_2018/papers/Tang_High-Speed_Tracking_With_CVPR_2018_paper.pdf)    
 - [x] [MCCTH](http://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Multi-Cue_Correlation_Filters_CVPR_2018_paper.pdf)  
 - [x] [STRCF](http://openaccess.thecvf.com/content_cvpr_2018/papers/Li_Learning_Spatial-Temporal_Regularized_CVPR_2018_paper.pdf)  
-- [x] [ASRCF-HC](Visual Tracking via Adaptive Spatially-Regularized Correlation Filters)CVPR2019 oral I implemented it HC version
 **Trackers from other repos**
 - [x] [ECO/ECO-HC](https://arxiv.org/pdf/1611.09224v1.pdf) from [pyECO](https://github.com/StrangerZhang/pyECO)
 - [x] [OPENCV-CSRDCF](https://github.com/opencv/opencv_contrib)(Note that trackers implemented in opencv get lower score because they will return a success flag and if this flag is False, the bbox will be set to (0,0,0,0))
@@ -90,14 +89,13 @@ VOT2018
 |    CSRDCF     |  0.492   |   0.501    |    107.0    | 0.210 |
 |    ECO-HC     |  0.500   |   0.473    |    101.0    | 0.207 |
 |   CSRDCF-LP   |  0.503   |   0.553    |    118.0    | 0.199 |
-|   ASRCF-HC    |  0.508   |   0.576    |    123.0    | 0.197 |
-|     STRCF     |  0.488   |   0.581    |    124.0    | 0.187 |
 |    Staple     |  0.524   |   0.665    |    142.0    | 0.179 |
 |     LDES      |  0.528   |   0.684    |    146.0    | 0.175 |
 | MCCTH-Staple  |  0.535   |   0.684    |    146.0    | 0.172 |
 | OPENCV-CSRDCF |  0.486   |   0.651    |    139.0    | 0.170 |
 |     BACF      |  0.511   |   0.674    |    144.0    | 0.169 |
 |      DAT      |  0.477   |   0.777    |    166.0    | 0.158 |
+|     STRCF     |  0.483   |   0.679    |    145.0    | 0.152 |
 |      CN       |  0.439   |   1.100    |    235.0    | 0.112 |
 |     SAMF      |  0.499   |   1.147    |    245.0    | 0.110 |
 |     DSST      |  0.492   |   1.222    |    261.0    | 0.107 |
@@ -107,7 +105,6 @@ VOT2018
 |      CSK      |  0.418   |   1.386    |    296.0    | 0.090 |
 |     MOSSE     |  0.378   |   1.967    |    420.0    | 0.063 |
 ---------------------------------------------------------------
-
 
 VOT2016
 ---------------------------------------------------------------
@@ -120,10 +117,9 @@ VOT2016
 |    CSRDCF     |  0.542   |   0.359    |    77.0     | 0.273 |
 |     LDES      |  0.577   |   0.419    |    90.0     | 0.272 |
 |   CSRDCF-LP   |  0.548   |   0.354    |    76.0     | 0.272 |
-|   ASRCF-HC    |  0.539   |   0.410    |    88.0     | 0.258 |
 |     BACF      |  0.521   |   0.405    |    87.0     | 0.252 |
-|     STRCF     |  0.507   |   0.392    |    84.0     | 0.250 |
 | OPENCV-CSRDCF |  0.521   |   0.438    |    94.0     | 0.239 |
+|     STRCF     |  0.520   |   0.415    |    89.0     | 0.239 |
 |      DAT      |  0.474   |   0.503    |    108.0    | 0.232 |
 |     SAMF      |  0.544   |   0.639    |    137.0    | 0.193 |
 |    DSST-LP    |  0.543   |   0.727    |    156.0    | 0.180 |
@@ -134,8 +130,39 @@ VOT2016
 |      CSK      |  0.433   |   0.886    |    190.0    | 0.139 |
 |     MOSSE     |  0.388   |   1.244    |    267.0    | 0.096 |
 ---------------------------------------------------------------
-
 ```
+
+### 本地环境配置
+先修改requirements.txt中的mxnet-cu90为mxnet-cu101和本地cuda驱动匹配后再
+
+pip install -r requirements.txt
+
+mxnet-cu90报错
+
+dlerror: libcudart.so.9.0: cannot open shared object file ...
+ https://www.jianshu.com/p/ba646e1ed00c
+ 安装10.1的mxnet-cu101
+
+python 报错：numba.errors.UntypedAttributeError: Failed at nopython (nopython frontend)解决办法
+原文链接：https://blog.csdn.net/weixin_43155243/article/details/97680771
+
+
+测试ECO的时候Python 错误 RuntimeError: CUDA error (10): invalid device ordinal
+原创 linchunmian  
+原文链接：https://blog.csdn.net/linchunmian/article/details/80520457
+
+gpuid 设置不对，更改lib/eco/config/gpu_config.py中的gpu_id=0
+
+
+运行evl_otb.py的输出结果图时报错
+RuntimeError: latex was not able to process the following string: b'lp'
+电脑里缺latex相关文件，安装
+```shell script
+sudo apt-get install texlive-latex-extra texlive-fonts-recommended dvipng
+```
+
+
+
 ## License.
 Licensed under an MIT license.
 

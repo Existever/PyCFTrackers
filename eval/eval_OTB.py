@@ -10,11 +10,11 @@ from lib.pysot.visualization import draw_success_precision
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='VOT Evaluation')
-    parser.add_argument('--dataset', type=str, default='OTB100',help='dataset name')
+    parser.add_argument('--dataset', type=str, default='OTB50',help='dataset name')
     parser.add_argument('--result_dir', type=str, default='test/OTB100',help='tracker result root')
     parser.add_argument('--tracker_prefix', type=str,default='test', help='tracker prefix')
     parser.add_argument('--show_video_level', action='store_true')
-    parser.add_argument('--num', type=int, help='number of processes to eval', default=10)
+    parser.add_argument('--num', type=int, help='number of processes to eval', default=8)
     parser.add_argument('--vis',type=bool,default=True)
     args = parser.parse_args()
 
@@ -22,7 +22,9 @@ if __name__ == '__main__':
     tracker_dir = args.result_dir
     trackers = glob.glob(join(tracker_dir, args.tracker_prefix+'*'))
     trackers = [t.split('/')[-1] for t in trackers]
-    trackers=['BACF-RCG','STRCF','ASRCF-HC','MCCTH-Staple','MKCFup','CSRDCF-LP','DSST-LP','LDES','SAMF','Staple-CA','DCF','MOSSE','KCF','CSK','Staple','DSST','CN','DAT','ECO-HC','ECO','BACF','CSRDCF']
+    trackers=['MCCTH-Staple','MKCFup-LP','MKCFup','CSRDCF-LP','DSST-LP','LDES','SAMF','Staple-CA','OPENCV-CSRDCF','DCF','MOSSE','KCF','CSK','Staple','DSST','CN','DAT','ECO-HC','ECO','BACF','CSRDCF']
+    trackers = ['STRCF', 'KCF', 'ECO']
+
     print(trackers)
     assert len(trackers) > 0
     args.num = min(args.num, len(trackers))
@@ -39,7 +41,7 @@ if __name__ == '__main__':
         precision_ret = {}
         with Pool(processes=args.num) as pool:
             for ret in tqdm(pool.imap_unordered(benchmark.eval_precision,
-                                                trackers), desc='eval precision', total=len(trackers), ncols=100):
+                                                trackers), desc='eval precision', total=len(trackers), ncols=2):
                 precision_ret.update(ret)
         benchmark.show_result(success_ret, precision_ret,
                               show_video_level=args.show_video_level)
